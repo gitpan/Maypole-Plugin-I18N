@@ -1,0 +1,9 @@
+Changes
+I18N.pm
+Makefile
+Makefile.old
+Makefile.PL
+MANIFEST			This list of files
+README
+test.pl
+META.yml                                 Module meta-data (added by MakeMaker)
