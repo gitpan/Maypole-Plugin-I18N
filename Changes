@@ -1,5 +1,8 @@
 Revision history for Perl extension Maypole::Plugin::I18N.
 
+0.02  Tue Oct 26 17:00:00 2004
+        - $r->lang() now always returns the actual used language
+
 0.01  Thu Oct 19 14:00:00 2004
 
         - initial release

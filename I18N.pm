@@ -2,11 +2,11 @@ package Maypole::Plugin::I18N;
 
 use strict;
 use NEXT;
+use I18N::LangTags::Detect;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 Maypole::Config->mk_accessors(qw(lang lexicon));
-Maypole->mk_accessors('lang');
 
 =head1 NAME
 
@@ -61,6 +61,19 @@ Note that you need Maypole 2.0 or newer to use this module!
 
 =cut
 
+sub lang {
+    my ( $r, $lang ) = @_;
+    $r->{lang} = $lang if $lang;
+    return $r->{lang} || $r->config->lang || I18N::LangTags::Detect::detect;
+}
+
+sub maketext {
+    my $r = shift;
+    _loc_lang( $r->lang || $r->config->lang );
+    return _loc( $_[0], @{ $_[1] } ) if ( ref $_[1] eq 'ARRAY' );
+    return _loc(@_);
+}
+
 sub setup {
     my $r = shift;
     $r->NEXT::DISTINCT::setup(@_);
@@ -69,13 +82,6 @@ sub setup {
       Class  => $r,
       Export => '_loc',
       Path   => $r->config->lexicon;
-}
-
-sub maketext {
-    my $r = shift;
-    _loc_lang( $r->lang || $r->config->lang );
-    return _loc( $_[0], @{ $_[1] } ) if ( ref $_[1] eq 'ARRAY' );
-    return _loc(@_);
 }
 
 =head1 AUTHOR
